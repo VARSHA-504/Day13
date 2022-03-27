@@ -5,32 +5,38 @@ public class Main<T extends Comparable<T>> {
     T b;
     T c;
 
-    // constructor
     public Main(T a, T b, T c) {
         this.a = a;
         this.b = b;
         this.c = c;
     }
 
-    public static <T extends Comparable<T>> T testMain(T a, T b, T c) {
-        T max = a; // assume a is initially the largest
 
-        if (b.compareTo(max) > 0) {
-            max = b;
+    @SafeVarargs
+    public static <T extends Comparable<T>> T testMain(T... value) {
+        T max = value[0]; // assume a is initially the largest
+
+        for (int i = 1; i < value.length; i++) {
+            if (value[i].compareTo(max) > 0) {
+                max = value[i];
+            }
         }
-        if (c.compareTo(max) > 0) {
-            max = c;
-        }
-        return max;
+        System.out.println("Maximum Value is= " + max);
+        return max; // returns the largest value
     }
 
-    // main method
-    public static void main(String[]args) {
+
+    public static void main(String[] args) {
         // Calling method And passing values
-        System.out.printf("Max of %d, %d and %d is %d\n\n", 3, 4, 5, Main.<Integer>testMain(3, 4, 5));
-        System.out.printf("Max of %.1f,%.1f and %.1f is %.1f\n\n", 6.6, 8.8, 7.7,
-                Main.<Float>testMain(6.6f, 8.8f, 7.7f));
-        System.out.printf("Max of %s, %s and %s is %s\n", "Apple", "Pear", "Banana",
-                Main.<String>testMain("Apple", "Pear", "Banana"));
+        Main.<Integer>testMain(3, 4, 5, 9);
+
+        Main.<Integer>testMain(7, 3, 2, 5);
+
+        Main.<Float>testMain(6.6f, 8.8f, 7.7f, 9.3f);
+
+        Main.<String>testMain("Apple", "Pear", "Banana", "orange", "chiku");
+
+        Main.<Float>testMain(1.2f, 6.3f, 7.0f, 5.4f);
+
     }
 }
